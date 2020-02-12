@@ -22,6 +22,7 @@ right_border = float(input("Enter the longitude of the right border\n"))
 width = int(input("Enter horizontal resolution\n"))
 height = int(input("Enter vertical resolution\n"))
 max_cell_size = int(input("Enter the maximum size of cells\n"))
+geometric_progression_step = int(input("Enter geometric progression step\n"))
 
 if max_cell_size < 2:
     max_cell_size = 2
@@ -104,8 +105,9 @@ if not thunderbolt_detected_flag:
 
 cell_size_list = []
 number_of_cells_with_object_list = []
+current_cell_size = 1
 
-for current_cell_size in range(max_cell_size, 0, -1):
+while current_cell_size < max_cell_size:
     counter = 0
     for y in range(0, height, current_cell_size):
         for x in range(0, width, current_cell_size):
@@ -119,6 +121,11 @@ for current_cell_size in range(max_cell_size, 0, -1):
 
     number_of_cells_with_object_list.append(counter)
     cell_size_list.append(current_cell_size)
+
+    current_cell_size *= geometric_progression_step
+
+number_of_cells_with_object_list.reverse()
+cell_size_list.reverse()
 
 for i in range(len(cell_size_list)):
     cell_size_list[i] = math.log(1 / cell_size_list[i], 10)
