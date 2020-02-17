@@ -1,5 +1,6 @@
 import datetime
 import math
+import matplotlib.pyplot as plt
 from numpy import polyfit as pf
 
 
@@ -10,7 +11,7 @@ first_date = "2016/06/09"
 #first_time = input("Enter starting time in format hh:mm:ss\n")
 first_time = "00:00:00"
 #second_date = input("Enter starting date in format yy/mm/dd\n")
-second_date = "2016/06/15"
+second_date = "2016/06/11"
 #second_time = input("Enter starting time in format hh:mm:ss\n")
 second_time = "12:00:00"
 
@@ -22,6 +23,7 @@ right_border = float(input("Enter the longitude of the right border\n"))
 width = int(input("Enter horizontal resolution\n"))
 height = int(input("Enter vertical resolution\n"))
 max_cell_size = int(input("Enter the maximum size of cells\n"))
+progression_step = int(input("Enter the progression step\n"))
 
 if max_cell_size < 2:
     max_cell_size = 2
@@ -104,8 +106,9 @@ if not thunderbolt_detected_flag:
 
 cell_size_list = []
 number_of_cells_with_object_list = []
+current_cell_size = 1
 
-for current_cell_size in range(max_cell_size, 0, -1):
+while current_cell_size <= max_cell_size:
     counter = 0
     for y in range(0, height, current_cell_size):
         for x in range(0, width, current_cell_size):
@@ -119,10 +122,23 @@ for current_cell_size in range(max_cell_size, 0, -1):
 
     number_of_cells_with_object_list.append(counter)
     cell_size_list.append(current_cell_size)
+    current_cell_size *= progression_step
+
+cell_size_list.reverse()
+number_of_cells_with_object_list.reverse()
 
 for i in range(len(cell_size_list)):
     cell_size_list[i] = math.log(1 / cell_size_list[i], 10)
     number_of_cells_with_object_list[i] = math.log(number_of_cells_with_object_list[i], 10)
 
-linear_coefficients = pf(cell_size_list, number_of_cells_with_object_list, 1)
+linear_coefficients = pf(cell_size_list, number_of_cells_with_object_list, deg=1)
+x = cell_size_list
+y = []
+for i in x:
+    y.append(linear_coefficients[0] * i + linear_coefficients[1])
+fig = plt.figure(figsize=(20, 10))
+plt.scatter(cell_size_list, number_of_cells_with_object_list, color='orange', s=40, marker='x')
+plt.plot(x, y)
+plt.show()
+
 print("Fractal dimension = " + str(linear_coefficients[0]))
