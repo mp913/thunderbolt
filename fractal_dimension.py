@@ -213,6 +213,7 @@ def data_collection():
         output.write(str(number_of_cells_with_object_list))
         output.write('\n')
 
+    log_text_box.insert(END, "Data collection completed successfully\n")
     # linear_coefficients = pf(cell_size_list, number_of_cells_with_object_list, deg=1)
     # x = cell_size_list
     # y = []
