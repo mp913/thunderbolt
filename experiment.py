@@ -1,9 +1,4 @@
-from PIL import Image, ImageDraw
+import datetime
 
-
-figure = Image.open("exp.jpg")
-draw = ImageDraw.Draw(figure)
-
-draw.point((10, 20), (255, 0, 0))
-
-figure.save("exp.jpg", "JPEG")
+d = datetime.date(2020, 1, 12)
+print(str(d.month))

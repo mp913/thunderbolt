@@ -11,7 +11,7 @@ first_time = "00:00:00"
 #second_date = input("Enter starting date in format yy/mm/dd\n")
 second_date = "2016/06/15"
 #second_time = input("Enter starting time in format hh:mm:ss\n")
-second_time = "12:00:00"
+second_time = "23:59:59"
 
 first_date = first_date.split('/')
 first_time = first_time.split(':')
