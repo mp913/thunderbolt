@@ -50,7 +50,7 @@ def data_collection():
 
     time_step_count = input_text_box_time_step_count.get()
     if time_step_count == '':
-        time_step_count = 5
+        time_step_count = 18
     else:
         time_step_count = int(time_step_count)
 
@@ -60,25 +60,25 @@ def data_collection():
 
     up_border = input_text_box_up_border.get()
     if up_border == '':
-        up_border = 9.1
+        up_border = 56.4
     else:
         up_border = float(up_border)
 
     down_border = input_text_box_up_border.get()
     if down_border == '':
-        down_border = 8.9
+        down_border = 56
     else:
         down_border = float(down_border)
 
     left_border = input_text_box_up_border.get()
     if left_border == '':
-        left_border = -79.6
+        left_border = 43.6
     else:
         left_border = float(left_border)
 
     right_border = input_text_box_up_border.get()
     if right_border == '':
-        right_border = -79.4
+        right_border = 44
     else:
         right_border = float(right_border)
 
@@ -125,6 +125,10 @@ def data_collection():
 
     counter = 0
     thunderbolt_detected_flag = False
+
+    fig, ax = plt.subplots()
+    ax.set_xlabel('Cell size')
+    ax.set_ylabel('Number of cells with object')
 
     for time_step_cycle_counter in range(time_step_count):
         current_date = datetime.date(second_date.year, second_date.month, second_date.day)
@@ -175,8 +179,9 @@ def data_collection():
             current_date = current_date + datetime.timedelta(days=1)
 
         if not thunderbolt_detected_flag:
-            print("Lightning discharges not detected\n")
-            return
+            log_text_box.insert(END, "no charges detected in the first " +
+                                str(time_step_size * (time_step_cycle_counter + 1)) + " days\n")
+            continue
 
         cell_size_list = []
         number_of_cells_with_object_list = []
@@ -202,8 +207,8 @@ def data_collection():
         number_of_cells_with_object_list.reverse()
 
         for i in range(len(cell_size_list)):
-            cell_size_list[i] = math.log(1 / cell_size_list[i], 10)
-            number_of_cells_with_object_list[i] = math.log(number_of_cells_with_object_list[i], 10)
+            cell_size_list[i] = math.log(1 / cell_size_list[i], progression_step)
+            number_of_cells_with_object_list[i] = math.log(number_of_cells_with_object_list[i], progression_step)
 
         output = open(file_template + '_' + str((time_step_cycle_counter + 1) * time_step_size) + "_days.txt", 'w')
         output.write("cell size: \n")
@@ -212,15 +217,24 @@ def data_collection():
         output.write("cell with charge amount: \n")
         output.write(str(number_of_cells_with_object_list))
         output.write('\n')
+        output.close()
+        log_text_box.insert(END, file_template + '_' + str((time_step_cycle_counter + 1) * time_step_size) + "_days.txt"
+                            + " saved successfully\n")
+        plt.plot(cell_size_list, number_of_cells_with_object_list, marker='x', label=str((time_step_cycle_counter + 1)
+                                                                                         * time_step_size) + " days")
+        # plt.plot(x, y)
 
     log_text_box.insert(END, "Data collection completed successfully\n")
+    plt.legend()
+    plt.show()
+
     # linear_coefficients = pf(cell_size_list, number_of_cells_with_object_list, deg=1)
     # x = cell_size_list
     # y = []
     # for i in x:
     #    y.append(linear_coefficients[0] * i + linear_coefficients[1])
     # fig = plt.figure(figsize=(20, 10))
-    # plt.scatter(cell_size_list, number_of_cells_with_object_list, color='orange', s=40, marker='x')
+    # plt.plot(cell_size_list, number_of_cells_with_object_list, s=40, marker='x')
     # plt.plot(x, y)
     # plt.show()
 
