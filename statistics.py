@@ -5,11 +5,11 @@ import math
 #command = input("input command\n")
 path_to_data = "../thunderbolt_data/06/"
 #first_date = input("Enter starting date in format yy/mm/dd\n")
-first_date = "2016/06/09"
+first_date = "2016/06/01"
 #first_time = input("Enter starting time in format hh:mm:ss\n")
 first_time = "00:00:00"
 #second_date = input("Enter starting date in format yy/mm/dd\n")
-second_date = "2016/06/15"
+second_date = "2016/06/29"
 #second_time = input("Enter starting time in format hh:mm:ss\n")
 second_time = "23:59:59"
 

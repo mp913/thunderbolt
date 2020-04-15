@@ -44,41 +44,41 @@ def data_collection():
 
     time_step_size = input_text_box_time_step_size.get()
     if time_step_size == '':
-        time_step_size = 5
+        time_step_size = 1
     else:
         time_step_size = int(time_step_size)
 
     time_step_count = input_text_box_time_step_count.get()
     if time_step_count == '':
-        time_step_count = 18
+        time_step_count = 30
     else:
         time_step_count = int(time_step_count)
 
     file_template = input_text_box_file_template_name.get()
     if file_template == '':
-        file_template = '_'
+        file_template = 'central_America_1month'
 
     up_border = input_text_box_up_border.get()
     if up_border == '':
-        up_border = 56.4
+        up_border = 21
     else:
         up_border = float(up_border)
 
     down_border = input_text_box_up_border.get()
     if down_border == '':
-        down_border = 56
+        down_border = 15.66
     else:
         down_border = float(down_border)
 
     left_border = input_text_box_up_border.get()
     if left_border == '':
-        left_border = 43.6
+        left_border = -100
     else:
         left_border = float(left_border)
 
     right_border = input_text_box_up_border.get()
     if right_border == '':
-        right_border = 44
+        right_border = -94.46
     else:
         right_border = float(right_border)
 
@@ -115,9 +115,16 @@ def data_collection():
     if max_cell_size > width:
         max_cell_size = width
 
+    meta_data = "first_date:" + str(first_date) + " time_step_size:" + str(time_step_size) \
+                + " time_step_count:" + str(time_step_count) + " file_template:" + str(file_template) \
+                + " up_border:" + str(up_border) + " down_border:" + str(down_border) \
+                + " left_border:" + str(left_border) + " right_border:" + str(right_border)\
+                + " width:" + str(width) + " height:" + str(height)\
+                + " max_cell_size:" + str(max_cell_size) + " progression_step:" + str(progression_step)
+
     zone = []
     for i in range(height):
-        zone.append([False] * width)
+        zone.append([0] * width)
 
     first_date = first_date.split('/')
     second_date = datetime.date(int(first_date[0]), int(first_date[1]), int(first_date[2]))
@@ -160,7 +167,7 @@ def data_collection():
                     lat = math.trunc((lat / (up_border - down_border)) * height)
 
                     thunderbolt_detected_flag = True
-                    zone[lat][lon] = True
+                    zone[lat][lon] += 1
 
                 if right_border < left_border:
                     if lat < right_border:
@@ -174,7 +181,7 @@ def data_collection():
                     lat = math.trunc((lat / (up_border - down_border)) * height)
 
                     thunderbolt_detected_flag = True
-                    zone[lat][lon] = True
+                    zone[lat][lon] += 1
 
             current_date = current_date + datetime.timedelta(days=1)
 
@@ -223,6 +230,16 @@ def data_collection():
         plt.plot(cell_size_list, number_of_cells_with_object_list, marker='x', label=str((time_step_cycle_counter + 1)
                                                                                          * time_step_size) + " days")
         # plt.plot(x, y)
+
+    table_file = open(file_template + "_table.txt", "w")
+    table_file.write(str(len(zone)) + '\n')
+    table_file.write(str(len(zone[0])) + '\n')
+    for i in range(len(zone)):
+        for j in range(len(zone[i])):
+            table_file.write(str(zone[i][j]) + ' ')
+        table_file.write(str(zone[i][j]) + '\n')
+    table_file.write(meta_data + '\n')
+
 
     log_text_box.insert(END, "Data collection completed successfully\n")
     plt.legend()
