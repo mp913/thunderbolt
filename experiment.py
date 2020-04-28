@@ -1,3 +1,4 @@
 from PIL import Image
-img = Image.new('RGB', (250, 250), (255, 255, 255))
-img.show()
+img = Image.open("gradient.jpg")
+print(img.getpixel((200, 0)))
+#img.show()
