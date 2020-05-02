@@ -240,7 +240,6 @@ def data_collection():
         table_file.write(str(zone[i][j]) + '\n')
     table_file.write(meta_data + '\n')
 
-
     log_text_box.insert(END, "Data collection completed successfully\n")
     plt.legend()
     plt.show()
