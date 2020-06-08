@@ -7,7 +7,6 @@ input_text_box_time_step_size = 1
 input_text_box_time_step_count = 1
 input_text_box_file_template_name = 1
 log_text_box = 1
-color_coefficient = 5
 
 
 def draw_start():
@@ -56,9 +55,12 @@ def draw_start():
             log_text_box.insert(END, "File " + file_template + '_' +
                                 str((time_step_cycle_counter + 1) * step_size) + "_days.txt" + "corrupted error\n")
 
+
+    log_text_box.insert(END, "Graphs construction completed\n")
     plt.legend()
     plt.show()
 
+    error_flag = 0
     try:
         input_file = open(file_template + '_table.txt', 'r')
         height = int(input_file.readline()[:-1:])
@@ -87,13 +89,20 @@ def draw_start():
                         img.putpixel((i * 4 + bonus_x, j * 4 + bonus_y), color)
         d = 1
         img.show()
-        #img.save(file_template + "_picture.jpg", "JPEG")
         img.save(file_template + "_picture.jpg", "JPEG")
-        log_text_box.insert(END, "File " + file_template + '_picture.jpg' + " saved1\n")
+        #log_text_box.insert(END, "File " + file_template + '_picture.jpg' + " saved1\n")
     except FileNotFoundError:
-        log_text_box.insert(END, "File " + file_template + '_table.txt' " wasn't found\n")
+        error_flag = 1
     except Exception:
+        error_flag = 2
+
+    if error_flag == 0:
+        log_text_box.insert(END, "Program finished\n")
+    elif error_flag == 1:
+        log_text_box.insert(END, "File " + file_template + '_table.txt' " wasn't found\n")
+    else:
         log_text_box.insert(END, "Unexpected error\n")
+
 
 
 drawer_window = Tk()

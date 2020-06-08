@@ -37,74 +37,122 @@ def data_collection():
     global input_progression_step
     global log_text_box
 
-    path_to_data = "../thunderbolt_data/06/"
-    first_date = input_text_box_start_date.get()
-    if first_date == '':
-        first_date = "2016/06/01"
+    try:
+        path_to_data = "../thunderbolt_data/06/"
+        first_date = input_text_box_start_date.get()
+        if first_date == '':
+            first_date = "2016/06/01"
+    except Exception:
+        log_text_box.insert(END, "First date invalid input\n")
+        return
 
-    time_step_size = input_text_box_time_step_size.get()
-    if time_step_size == '':
-        time_step_size = 1
-    else:
-        time_step_size = int(time_step_size)
+    try:
+        time_step_size = input_text_box_time_step_size.get()
+        if time_step_size == '':
+            time_step_size = 1
+        else:
+            time_step_size = int(time_step_size)
+    except Exception:
+        log_text_box.insert(END, "Time step size invalid input\n")
+        return
 
-    time_step_count = input_text_box_time_step_count.get()
-    if time_step_count == '':
-        time_step_count = 30
-    else:
-        time_step_count = int(time_step_count)
+    try:
+        time_step_count = input_text_box_time_step_count.get()
+        if time_step_count == '':
+            time_step_count = 30
+        else:
+            time_step_count = int(time_step_count)
+    except Exception:
+        log_text_box.insert(END, "Time step count invalid input\n")
+        return
 
-    file_template = input_text_box_file_template_name.get()
-    if file_template == '':
-        file_template = 'central_America_1month'
+    try:
+        file_template = input_text_box_file_template_name.get()
+        if file_template == '':
+            file_template = 'central_America_1month'
+    except Exception:
+        log_text_box.insert(END, "File template invalid input\n")
+        return
 
-    up_border = input_text_box_up_border.get()
-    if up_border == '':
-        up_border = 21
-    else:
-        up_border = float(up_border)
+    try:
+        up_border = input_text_box_up_border.get()
+        if up_border == '':
+            up_border = 21
+        else:
+            up_border = float(up_border)
+    except Exception:
+        log_text_box.insert(END, "Up border invalid input\n")
+        return
 
-    down_border = input_text_box_up_border.get()
-    if down_border == '':
-        down_border = 15.66
-    else:
-        down_border = float(down_border)
+    try:
+        down_border = input_text_box_down_border.get()
+        if down_border == '':
+            down_border = 15.66
+        else:
+            down_border = float(down_border)
+    except Exception:
+        log_text_box.insert(END, "Down border invalid input\n")
+        return
 
-    left_border = input_text_box_up_border.get()
-    if left_border == '':
-        left_border = -100
-    else:
-        left_border = float(left_border)
+    try:
+        left_border = input_text_box_left_border.get()
+        if left_border == '':
+            left_border = -100
+        else:
+            left_border = float(left_border)
+    except Exception:
+        log_text_box.insert(END, "Left border invalid input\n")
+        return
 
-    right_border = input_text_box_up_border.get()
-    if right_border == '':
-        right_border = -94.46
-    else:
-        right_border = float(right_border)
+    try:
+        right_border = input_text_box_right_border.get()
+        if right_border == '':
+            right_border = -94.46
+        else:
+            right_border = float(right_border)
+    except Exception:
+        log_text_box.insert(END, "Right border invalid input\n")
+        return
 
-    width = input_width.get()
-    if width == '':
-        width = 200
-    else:
-        width = int(width)
+    try:
+        width = input_width.get()
+        if width == '':
+            width = 200
+        else:
+            width = int(width)
+    except Exception:
+        log_text_box.insert(END, "Width invalid input\n")
+        return
 
-    height = input_height.get()
-    if height == '':
-        height = 200
-    else:
-        height = int(height)
+    try:
+        height = input_height.get()
+        if height == '':
+            height = 200
+        else:
+            height = int(height)
+    except Exception:
+        log_text_box.insert(END, "Height invalid input\n")
+        return
 
-    max_cell_size = input_max_cell_size.get()
-    if max_cell_size == '':
-        max_cell_size = 200
-    else:
-        max_cell_size = int(max_cell_size)
+    try:
+        max_cell_size = input_max_cell_size.get()
+        if max_cell_size == '':
+            max_cell_size = 200
+        else:
+            max_cell_size = int(max_cell_size)
+    except Exception:
+        log_text_box.insert(END, "Max cell size invalid input\n")
+        return
 
-    progression_step = input_progression_step.get()
-    if progression_step == '':
-        progression_step = 2
-    else:
-        progression_step = int(progression_step)
+    try:
+        progression_step = input_progression_step.get()
+        if progression_step == '':
+            progression_step = 2
+        else:
+            progression_step = int(progression_step)
+    except Exception:
+        log_text_box.insert(END, "Progression step invalid input\n")
+        return
 
     if max_cell_size < 2:
         max_cell_size = 2
@@ -126,9 +174,13 @@ def data_collection():
     for i in range(height):
         zone.append([0] * width)
 
-    first_date = first_date.split('/')
-    second_date = datetime.date(int(first_date[0]), int(first_date[1]), int(first_date[2]))
-    first_date = datetime.date(int(first_date[0]), int(first_date[1]), int(first_date[2]))
+    try:
+        first_date = first_date.split('/')
+        second_date = datetime.date(int(first_date[0]), int(first_date[1]), int(first_date[2]))
+        first_date = datetime.date(int(first_date[0]), int(first_date[1]), int(first_date[2]))
+    except Exception:
+        log_text_box.insert(END, "First date invalid input\n")
+        return
 
     counter = 0
     thunderbolt_detected_flag = False
@@ -224,6 +276,8 @@ def data_collection():
         output.write("cell with charge amount: \n")
         output.write(str(number_of_cells_with_object_list))
         output.write('\n')
+        linear_coefficients = pf(cell_size_list, number_of_cells_with_object_list, deg=1)
+        output.write("Fractal dimension = " + str(linear_coefficients[0]))
         output.close()
         log_text_box.insert(END, file_template + '_' + str((time_step_cycle_counter + 1) * time_step_size) + "_days.txt"
                             + " saved successfully\n")
@@ -244,7 +298,7 @@ def data_collection():
     plt.legend()
     plt.show()
 
-    # linear_coefficients = pf(cell_size_list, number_of_cells_with_object_list, deg=1)
+
     # x = cell_size_list
     # y = []
     # for i in x:
@@ -254,7 +308,6 @@ def data_collection():
     # plt.plot(x, y)
     # plt.show()
 
-#print("Fractal dimension = " + str(linear_coefficients[0]))
 
 
 data_collection_window = Tk()
